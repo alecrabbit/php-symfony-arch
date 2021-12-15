@@ -1,22 +1,22 @@
 version: '3.7'
 services:
-  &fwx-api fwx-api:
+  &smf-api smf-api:
     image: nginx:stable-alpine
-    hostname: *fwx-api
+    hostname: *smf-api
     volumes:
       - ./:/app
       - ./docker/dev/config/nginx/snippets:/etc/nginx/snippets
       - ./docker/dev/config/nginx/backend/backend.conf:/etc/nginx/conf.d/default.conf
       - ./docker/dev/config/nginx/backend/nginx.conf:/etc/nginx/nginx.conf
     depends_on:
-      - fwx-php-fpm
+      - smf-php-fpm
     ports:
       - "4042:80"
     working_dir: /app
 
-  &fwx-fpm fwx-php-fpm:
+  &smf-fpm smf-php-fpm:
     image: sd2020/php81-fpm-alpine
-    hostname: *fwx-fpm
+    hostname: *smf-fpm
     tty: true
     volumes:
       - ./:/app
@@ -25,9 +25,9 @@ services:
       - ./docker/dev/config/php/php-fpm.conf:/usr/local/etc/php-fpm.conf
     working_dir: /app
 
-  &fwx-cli fwx-php-cli:
+  &smf-cli smf-php-cli:
     image: sd2020/php81-cli-dev-alpine
-    hostname: *fwx-cli
+    hostname: *smf-cli
     tty: true
     volumes:
       - ./:/app
