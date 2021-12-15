@@ -14,7 +14,7 @@ _message_initialize:
 	@echo "Initialize...";
 	@echo "$(STOP_COLOR)";
 
-_full_init: docker_down_clear clear_ready docker_pull docker_build docker_up _docker_ps
+_full_init: docker_down_clear clear_ready docker_pull docker_build docker_up _app_init _docker_ps
 
 docker_down:
 	@echo "\n$(WARNING_COLOR)Stopping containers...$(STOP_COLOR)\n";
@@ -41,6 +41,12 @@ _docker_ps:
 	@echo "\n$(INFO_COLOR)Containers...$(STOP_COLOR)\n";
 	docker-compose ps
 	@echo "\n";
+
+_app_init: _composer_install
+
+_composer_install:
+	@echo "\n$(SELECT_COLOR)  $(PROJECT_NAME)  $(STOP_COLOR) $(INFO_COLOR)Installing dependencies...$(STOP_COLOR)\n";
+	docker-compose exec $(PROJECT_CONTAINER) composer install --ignore-platform-req=php --no-interaction
 
 clear_ready:
 	@echo "\n$(SELECT_COLOR) $(PROJECT_NAME) $(STOP_COLOR) $(INFO_COLOR)Clearing ready flag...$(STOP_COLOR)\n";

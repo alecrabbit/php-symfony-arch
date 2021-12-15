@@ -11,7 +11,7 @@ services:
     depends_on:
       - smf-php-fpm
     ports:
-      - "4042:80"
+      - "8081:80"
     working_dir: /app
 
   &smf-fpm smf-php-fpm:
