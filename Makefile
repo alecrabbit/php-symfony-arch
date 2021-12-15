@@ -31,7 +31,7 @@ clear_ready:
 	docker run --rm -v ${PWD}/client:/app --workdir=/app alpine rm -f .ready
 
 mark_ready:
-	@echo "\n$(SELECT_COLOR)  $(SEINE)  $(STOP_COLOR) $(INFO_COLOR)Setting ready flag...$(STOP_COLOR)\n";
+	@echo "\n$(SELECT_COLOR)  $(PROJECT_NAME)  $(STOP_COLOR) $(INFO_COLOR)Setting ready flag...$(STOP_COLOR)\n";
 	docker run --rm -v ${PWD}/client:/app --workdir=/app --user=$(shell id -u):$(shell id -g) alpine touch .ready
 
 own:
