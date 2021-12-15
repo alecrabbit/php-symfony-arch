@@ -14,7 +14,7 @@ _message_initialize:
 	@echo "Initialize...";
 	@echo "$(STOP_COLOR)";
 
-_full_init: docker_down_clear clear_ready docker_pull docker_build docker_up _app_init _docker_ps
+_full_init: docker_down_clear clear_ready docker_pull docker_build docker_up _app_init mark_ready _docker_ps
 
 docker_down:
 	@echo "\n$(WARNING_COLOR)Stopping containers...$(STOP_COLOR)\n";
@@ -42,17 +42,27 @@ _docker_ps:
 	docker-compose ps
 	@echo "\n";
 
-_app_init: _composer_install
+_app_init: _composer_install _npm_install
 
 _composer_install:
 	@echo "\n$(SELECT_COLOR)  $(PROJECT_NAME)  $(STOP_COLOR) $(INFO_COLOR)Installing dependencies...$(STOP_COLOR)\n";
-	docker-compose exec $(PROJECT_CONTAINER) composer install --ignore-platform-req=php --no-interaction
+	docker-compose exec $(BACKEND_CONTAINER) composer install --ignore-platform-req=php --no-interaction
+
+_npm_install:
+	@echo "\n$(SELECT_COLOR)  $(PROJECT_NAME)  $(STOP_COLOR) $(INFO_COLOR)Installing assets...$(STOP_COLOR)\n";
+	docker-compose exec $(FRONTEND_CONTAINER) npm install
 
 clear_ready:
 	@echo "\n$(SELECT_COLOR) $(PROJECT_NAME) $(STOP_COLOR) $(INFO_COLOR)Clearing ready flag...$(STOP_COLOR)\n";
-	@echo "\n$(ERROR_COLOR) DISABLED $(STOP_COLOR)\n";
-#	docker run --rm -v ${PWD}/$(INDY_BACKEND_DIR):/app --workdir=/app alpine rm -f .ready
-#	docker run --rm -v ${PWD}/$(INDY_FRONTEND_DIR):/app --workdir=/app alpine rm -f .ready
+	docker run --rm -v ${PWD}/client:/app --workdir=/app alpine rm -f .ready
+
+mark_ready:
+	@echo "\n$(SELECT_COLOR)  $(SEINE)  $(STOP_COLOR) $(INFO_COLOR)Setting ready flag...$(STOP_COLOR)\n";
+	docker run --rm -v ${PWD}/client:/app --workdir=/app --user=$(shell id -u):$(shell id -g) alpine touch .ready
 
 own:
 	sudo chown -R $(shell id -un):$(shell id -gn) .
+
+docker_logs:
+	@-title "📔 Logs"
+	-docker-compose logs -f

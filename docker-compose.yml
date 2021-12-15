@@ -1,5 +1,20 @@
 version: '3.7'
 services:
+  &smf-node smf-node:
+    image: node:14
+#    build:
+#      context: ./docker/dev
+#      dockerfile: Dockerfile/frontend.Dockerfile
+    hostname: *smf-node
+    volumes:
+      - ./client:/app
+    environment:
+      NG_CLI_ANALYTICS: ci
+    working_dir: /app
+    ports:
+      - "4200:4200"
+    command: sh -c "until [ -f .ready ] ; do sleep 1 ; done && npm run start-with-backend"
+
   &smf-api smf-api:
     image: nginx:stable-alpine
     hostname: *smf-api
