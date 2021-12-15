@@ -1,0 +1,39 @@
+version: '3.7'
+services:
+  &fwx-api fwx-api:
+    image: nginx:stable-alpine
+    hostname: *fwx-api
+    volumes:
+      - ./:/app
+      - ./docker/dev/config/nginx/snippets:/etc/nginx/snippets
+      - ./docker/dev/config/nginx/backend/backend.conf:/etc/nginx/conf.d/default.conf
+      - ./docker/dev/config/nginx/backend/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - fwx-php-fpm
+    ports:
+      - "4042:80"
+    working_dir: /app
+
+  &fwx-fpm fwx-php-fpm:
+    image: sd2020/php81-fpm-alpine
+    hostname: *fwx-fpm
+    tty: true
+    volumes:
+      - ./:/app
+      - ./docker/dev/config/user/.bashrc:/root/.bashrc
+      - ./docker/dev/config/php/php-fpm.d/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - ./docker/dev/config/php/php-fpm.conf:/usr/local/etc/php-fpm.conf
+    working_dir: /app
+
+  &fwx-cli fwx-php-cli:
+    image: sd2020/php81-cli-dev-alpine
+    hostname: *fwx-cli
+    tty: true
+    volumes:
+      - ./:/app
+      - ./docker/dev/config/user/.bashrc:/root/.bashrc
+      - composer:/root/.composer/cache
+    working_dir: /app
+
+volumes:
+  composer:
