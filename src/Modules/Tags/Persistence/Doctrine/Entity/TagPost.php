@@ -11,12 +11,12 @@ class TagPost
 
     #[ORM\Id]
     #[ORM\JoinColumn(name: "tagId", referencedColumnName: "id")]
-    #[ORM\ManyToOne(targetEntity: Tag::class)]
+    #[ORM\ManyToOne(targetEntity: Tag::class, inversedBy: "tagPosts")]
     private Tag $tag;
 
     #[ORM\Id]
     #[ORM\JoinColumn(name: "postId", referencedColumnName: "id")]
-    #[ORM\ManyToOne(targetEntity: TagPostHeader::class)]
+    #[ORM\ManyToOne(targetEntity: TagPostHeader::class, inversedBy: "tagPosts")]
     private TagPostHeader $post;
 
     /**
