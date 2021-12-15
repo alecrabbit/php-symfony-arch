@@ -68,3 +68,5 @@
 /config/jwt/private.pem
 /config/jwt/public.pem
 ###< lexik/jwt-authentication-bundle ###
+
+.ready
