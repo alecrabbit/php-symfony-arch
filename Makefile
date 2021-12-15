@@ -16,32 +16,6 @@ _message_initialize:
 
 _full_init: docker_down_clear clear_ready docker_pull docker_build docker_up _app_init mark_ready _docker_ps
 
-docker_down:
-	@echo "\n$(WARNING_COLOR)Stopping containers...$(STOP_COLOR)\n";
-	docker-compose down --remove-orphans
-
-docker_down_clear:
-	@echo "\n$(WARNING_COLOR)Stopping containers...$(STOP_COLOR)\n";
-	docker-compose down -v --remove-orphans
-
-docker_pull:
-	@echo "\n$(INFO_COLOR)Pulling images...$(STOP_COLOR)\n";
-	@docker-compose pull
-
-docker_build:
-	@echo "\n$(INFO_COLOR)Building containers...$(STOP_COLOR)\n";
-	docker-compose build
-
-docker_up:
-	@-title
-	@echo "\n$(INFO_COLOR)Starting containers...$(STOP_COLOR)\n";
-	docker-compose up -d
-
-_docker_ps:
-	@echo "\n$(INFO_COLOR)Containers...$(STOP_COLOR)\n";
-	docker-compose ps
-	@echo "\n";
-
 _app_init: _composer_install _npm_install
 
 _composer_install:
@@ -62,7 +36,3 @@ mark_ready:
 
 own:
 	sudo chown -R $(shell id -un):$(shell id -gn) .
-
-docker_logs:
-	@-title "📔 Logs"
-	-docker-compose logs -f
