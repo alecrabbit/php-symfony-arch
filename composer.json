@@ -72,6 +72,7 @@
         }
     },
     "require-dev": {
+        "roave/security-advisories": "dev-latest",
         "dama/doctrine-test-bundle": "^6.7",
         "jaschilz/php-coverage-badger": "^2.0",
         "phpunit/phpunit": "^9.5",
