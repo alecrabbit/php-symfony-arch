@@ -10,9 +10,7 @@ restart: docker_down docker_up
 init: _message_initialize _full_init
 
 _message_initialize:
-	@echo "$(INFO_COLOR)";
-	@echo "Initialize...";
-	@echo "$(STOP_COLOR)";
+	@echo "\n$(SELECT_COLOR)  $(PROJECT_NAME)  $(STOP_COLOR) $(INFO_COLOR)Initialize... $(STOP_COLOR)\n";
 
 _full_init: docker_down_clear clear_ready docker_pull docker_build docker_up _app_init mark_ready _docker_ps
 
