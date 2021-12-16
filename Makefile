@@ -16,13 +16,13 @@ _message_initialize:
 
 _full_init: docker_down_clear clear_ready docker_pull docker_build docker_up _app_init mark_ready _docker_ps
 
-_app_init: _composer_install _init_jwt _npm_install
+_app_init: _composer_install _generate_keys _npm_install
 
 _composer_install:
 	@echo "\n$(SELECT_COLOR)  $(PROJECT_NAME)  $(STOP_COLOR) $(INFO_COLOR)Installing dependencies...$(STOP_COLOR)\n";
 	docker-compose exec $(BACKEND_CONTAINER) composer install --ignore-platform-req=php --no-interaction
 
-_init_jwt:
+_generate_keys:
 	@echo "\n$(SELECT_COLOR)  $(PROJECT_NAME)  $(STOP_COLOR) $(INFO_COLOR)Generating keys...$(STOP_COLOR)\n";
 	docker-compose exec $(BACKEND_CONTAINER) php bin/console lexik:jwt:generate-keypair
 
