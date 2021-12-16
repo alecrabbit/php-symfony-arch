@@ -22,7 +22,7 @@ _composer_install:
 
 _generate_keys:
 	@echo "\n$(SELECT_COLOR)  $(PROJECT_NAME)  $(STOP_COLOR) $(INFO_COLOR)Generating keys...$(STOP_COLOR)\n";
-	docker-compose exec $(BACKEND_CONTAINER) php bin/console lexik:jwt:generate-keypair
+	docker-compose exec $(BACKEND_CONTAINER) php bin/console lexik:jwt:generate-keypair --overwrite -n
 
 _npm_install:
 	@echo "\n$(SELECT_COLOR)  $(PROJECT_NAME)  $(STOP_COLOR) $(INFO_COLOR)Installing assets...$(STOP_COLOR)\n";
