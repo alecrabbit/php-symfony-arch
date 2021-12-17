@@ -15,6 +15,7 @@ class FindPostsByTagQueryResponse
      * @param \DateTime $createdAt
      * @param int $version
      * @param int $commentsCount
+     * @param array $tags
      */
     public function __construct(private Ulid      $id,
                                 private string    $title,
